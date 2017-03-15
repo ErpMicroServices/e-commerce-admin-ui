@@ -1,0 +1,3 @@
+rootProject.name = 'e_commerce_admin_ui'
+
+include ':app'

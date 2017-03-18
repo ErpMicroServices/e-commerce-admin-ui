@@ -1,4 +1,3 @@
-import axios from "axios";
 import constants from "../constants";
 import {
     push
@@ -29,19 +28,8 @@ let {
 export function loginUser(username, password, redirect = "/") {
     return function(dispatch) {
         dispatch(loginUserRequest());
-        return axios.post('/api/user/authenticate', {
-                username,
-                password
-            })
-            .then(checkHttpStatus)
-            .then(parseJSON)
-            .then(data => {
-                dispatch(loginUserSuccess(data.token));
-            })
-            .then(() => dispatch(push(redirect)))
-            .catch(error => {
-                dispatch(loginUserFailure(error));
-            })
+        dispatch(loginUserSuccess(data.token));
+        dispatch(push(redirect));
     }
 }
 
@@ -67,7 +55,7 @@ export function loginUserSuccess( token) {
   try{
     let decoded = jwtDecode(token);
     localStorage.setItem('token', token);
-    axios.defaults.headers.common['Authorization'] = token;
+    // axios.defaults.headers.common['Authorization'] = token;
     return {
         type: LOGIN_USER_SUCCESS,
         payload: {
@@ -102,7 +90,7 @@ export function logout() {
 export function logoutAndRedirect() {
     return (dispatch, state) => {
         dispatch(logout());
-        dispatch(push(null, '/login'));
+        dispatch(push('/login'));
     }
 }
 
@@ -118,15 +106,7 @@ export function receiveProtectedData(data) {
 export function registerUser(username, password, redirect = "/") {
     return function(dispatch) {
         dispatch(registerUserRequest());
-        return axios.post('/api/user/register', {
-                username,
-                password
-            })
-            .then(checkHttpStatus)
-            .then(parseJSON)
-            .then(data => {
-                let decoded = jwtDecode(data.token);
-                dispatch({
+        dispatch({
                     type: REGISTER_USER_SUCCESS,
                     payload: {
                         status: API_STATUS_FINISHED,
@@ -137,18 +117,38 @@ export function registerUser(username, password, redirect = "/") {
                         }
                     }
                 });
-            })
-            .then(() => dispatch(push(redirect)))
-            .catch(error => {
-                dispatch({
-                    type: REGISTER_USER_FAILURE,
-                    payload: {
-                        status: API_STATUS_FINISHED,
-                        result: API_RESULT_FAILURE,
-                        error: convertErrorToString(error)
-                    }
-                });
-            })
+        dispatch(push(redirect));
+        // return axios.post('/api/user/register', {
+        //         username,
+        //         password
+        //     })
+        //     .then(checkHttpStatus)
+        //     .then(parseJSON)
+        //     .then(data => {
+        //         let decoded = jwtDecode(data.token);
+        //         dispatch({
+        //             type: REGISTER_USER_SUCCESS,
+        //             payload: {
+        //                 status: API_STATUS_FINISHED,
+        //                 result: API_RESULT_SUCCESS,
+        //                 jwt: {
+        //                     decoded,
+        //                     token: data.token
+        //                 }
+        //             }
+        //         });
+        //     })
+        //     .then(() => dispatch(push(redirect)))
+        //     .catch(error => {
+        //         dispatch({
+        //             type: REGISTER_USER_FAILURE,
+        //             payload: {
+        //                 status: API_STATUS_FINISHED,
+        //                 result: API_RESULT_FAILURE,
+        //                 error: convertErrorToString(error)
+        //             }
+        //         });
+        //     })
     }
 }
 
@@ -161,7 +161,7 @@ export function registerUserRequest() {
 export function registerUserSuccess(token) {
   localStorage.setItem('token', token);
   let decoded = jwtDecode(token);
-  axios.defaults.headers.common['Authorization'] = token;
+  // axios.defaults.headers.common['Authorization'] = token;
   return {
       type:REGISTER_USER_SUCCESS,
       payload: {

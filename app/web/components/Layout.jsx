@@ -1,9 +1,12 @@
+import {
+    push
+} from "react-router-redux";
 import Footer from "./Footer";
 import Header from "./Header";
 import constants from "../../constants";
 import React from "react";
 import {connect} from "react-redux";
-import {logoutAndRedirect} from "../../actions";
+import {logoutAndRedirect, openWebTypes} from "../../actions";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import "../../../node_modules/bootstrap/dist/css/bootstrap-theme.min.css"
 let {MESSAGE_CONTEXT_DANGER, MESSAGE_CONTEXT_INFO, MESSAGE_CONTEXT_SUCCESS, MESSAGE_CONTEXT_WARNING} = constants;
@@ -13,7 +16,7 @@ class Layout extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			title: "Deck of Knowledge"
+			title: "E-Commerce Admin UI"
 		};
 	}
 
@@ -24,7 +27,7 @@ class Layout extends React.Component {
 	}
 
 	render() {
-		let {app, auth, logout}        =this.props;
+		let {app, auth, logout, openWebTypes}        =this.props;
 		let message = "";
 		let contextClass = "alert-info";
 		switch (app.message.context) {
@@ -53,7 +56,12 @@ class Layout extends React.Component {
 		const {location, user}     = this.props;
 		return (
 			<div id="layout" class="container" role="main" style={containerStyle}>
-				<Header auth={auth} location={location} title={this.state.title} user={user} logout={logout.bind(this)}/>
+				<Header auth={auth}
+					location={location}
+					title={this.state.title}
+					user={user}
+					logout={logout.bind(this)}
+					openWebTypes={openWebTypes.bind(this)}/>
 				{message}
 				{this.props.children}
 				<Footer/>
@@ -74,7 +82,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		logout: () => {
 			dispatch(logoutAndRedirect());
-		}
+		},
+		openWebTypes: () => dispatch(push('/web_preference_types'))
 	};
 };
 

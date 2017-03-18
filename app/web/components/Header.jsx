@@ -16,28 +16,29 @@ class Header extends React.Component {
         this.setState({collapsed});
     }
 
+    toggleTypesOpen() {
+        let typesOpen = !this.state.typesOpen;
+        this.setState({typesOpen});
+    }
+
     logout(e) {
         e.preventDefault();
         this.props.logout();
     }
 
+    openWebTypes(e) {
+      e.preventDefault();
+      this.props.openWebTypes();
+    }
+
     render() {
-        let {collapsed} = this.state;
+        let {collapsed, typesOpen} = this.state;
         const navClass = collapsed
             ? "collapse"
             : "";
+        const typesMenuOpenClass = typesOpen ? "open" : "";
         const {auth, location, user} = this.props;
-        const plotPointClass = location.pathname === "/"
-            ? "active"
-            : "";
-        const registerClass = location.pathname.match(/^\/register/)
-            ? "active"
-            : "";
-        const loginClass = location.pathname.match(/^\/login/)
-            ? "active"
-            : "";
-        let UserComponent = null;
-        UserComponent = auth.isAuthenticated
+        let UserComponent = auth.isAuthenticated
             ? (
                 <ul class="nav navbar-nav navbar-right">
                     <li>
@@ -61,7 +62,18 @@ class Header extends React.Component {
                         <a class="navbar-brand" href="#">{this.props.title}</a>
                     </div>
                     <div id="navbar" class={"navbar-collapse " + navClass}>
-                        <ul class="nav navbar-nav"></ul>
+                        <ul class="nav navbar-nav">
+                            <li class={"dropdown " + typesMenuOpenClass} onClick={this.toggleTypesOpen.bind(this)}>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Types
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#" onClick={this.openWebTypes.bind(this)}>Web Preference</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                         {UserComponent}
                     </div>
                 </div>

@@ -5,7 +5,6 @@ import thunkMiddleware from "redux-thunk";
 import {routerMiddleware} from "react-router-redux";
 import {hashHistory} from "react-router";
 
-
 const loggerMiddleware = createLogger();
 
 const store = createStore(

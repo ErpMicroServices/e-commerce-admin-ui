@@ -25,20 +25,12 @@ module.exports = {
         loaders: [{
                 test: /\.jsx?$/,
                 loader: "babel-loader",
-                exclude: /(node_modules|bower_components)/,
-                query: {
-                    // presets: ["react", "es2015", "stage-2", "react-html-attrs"],
-                    // plugins: ["react-html-attrs", "transform-class-properties", "transform-decorators-legacy"]
-                }
+                exclude: /(node_modules|bower_components)/
             },
             {
                 test: /\.js?$/,
                 loader: "babel-loader",
-                exclude: /(node_modules|bower_components)/,
-                query: {
-                    // presets: ["react", "es2015", "stage-2"],
-                    // plugins: ["react-html-attrs", "transform-class-properties", "transform-decorators-legacy"]
-                }
+                exclude: /(node_modules|bower_components)/
             }, {
                 test: /\.css$/,
                 loader: "style-loader!css-loader"

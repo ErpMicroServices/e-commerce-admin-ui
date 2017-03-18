@@ -1,0 +1,57 @@
+version: '3'
+services:
+  e-commerce-db:
+    image: erpmicroservices/e-commerce-database
+    container_name: e-commerce-admin-ui-db
+    ports:
+      - "5432:5432"
+
+  e-commerce-admin-service:
+    image: erpmicroservices/e-commerce-admin-service
+    container_name: e-commerce-admin-ui-service
+    links:
+      - e-commerce-db
+    labels:
+      - "traefik.backend=e-commerce-admin-service"
+      - "traefik.frontend.rule=PathPrefixStrip:/api/e-commerce/admin"
+      - "traefik.port=80"
+      - "traefik.frontend.entryPoints=http"
+
+  e-commerce-admin-ui:
+    image: erpmicroservices/e-commerce-admin-ui
+    build: .
+    container_name: e-commerce-admin-ui
+    volumes:
+      - "./web/public:/usr/share/nginx/html"
+    labels:
+      - "traefik.backend=e-commerce-admin-ui"
+      - "traefik.frontend.rule=PathPrefixStrip:/e-commerce-admin"
+      - "traefik.port=80"
+      - "traefik.frontend.entryPoints=http"
+
+
+  pg-admin:
+    image: thajeztah/pgadmin4
+    container_name: e-commerce-admin-ui-pgadmin
+    links:
+      - e-commerce-db
+    environment:
+        - DEBUG=False
+    ports:
+      - "5050:5050"
+    labels:
+      - "traefik.backend=e-commerce-admin-db-ui"
+      - "traefik.frontend.rule=PathPrefixStrip:/dbui"
+      - "traefik.port=5050"
+      - "traefik.frontend.entryPoints=http"
+
+  traefik:
+    image: traefik
+    container_name: traefik
+    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml

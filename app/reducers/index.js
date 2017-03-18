@@ -1,11 +1,13 @@
 import {routerReducer} from "react-router-redux";
 import {combineReducers} from "redux";
-import { ApolloClient, ApolloProvider } from 'react-apollo';
+import { ApolloClient, createNetworkInterface } from 'react-apollo';
 import Application from "./application";
 import Auth from "./auth";
 import WebPreferenceTypes from "./web_preference_types";
 
-const client = new ApolloClient();
+const client = new ApolloClient({
+	networkInterface: createNetworkInterface({ uri: "http://localhost/api/e-commerce/admin"})
+});
 
 const reducer = combineReducers({
 	app: Application,

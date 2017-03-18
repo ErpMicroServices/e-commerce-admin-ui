@@ -3,15 +3,19 @@
   "version": "0.0.0",
   "description": "Admin User Interface for the E-Commerce domain",
   "scripts": {
-    "start": "react-native start",
-    "ios-bundle": "react-native bundle --dev false --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
-    "ios-dev-bundle": "react-native bundle --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
     "android-bundle": "react-native bundle --dev false --entry-file index.android.js --platform android --bundle-output android/app/src/main/assets/index.android.bundle",
     "android-dev-bundle": "react-native bundle --entry-file index.android.js --platform android --bundle-output android/app/src/main/assets/index.android.bundle",
-    "web-bundle": "webpack --config web/webpack/web.prod.config.js --progress --colors",
-    "web-dev": "webpack-dev-server --content-base web/public/ --config web/webpack/web.dev.config.js --port 3001 --inline --hot --colors",
+    "build": "npm run web-bundle;npm run build-web",
+    "build-web": "docker build --tag erpmicroservices/e-commerce-admin-service --rm .",
     "clear-cache": "gulp clear-cache",
-    "test": "jest"
+    "start": "npm run start-native; npm  run start-web",
+    "start-native": "react-native start",
+    "start-web": "npm run web-dev;docker-compose up",
+    "ios-bundle": "react-native bundle --dev false --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
+    "ios-dev-bundle": "react-native bundle --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
+    "test": "jest",
+    "web-bundle": "webpack --config web/webpack/web.prod.config.js --progress --colors",
+    "web-dev": "webpack --progress --colors --watch -d --config web/webpack/web.dev.config.js"
   },
   "repository": {
     "type": "git",

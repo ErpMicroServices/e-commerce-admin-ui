@@ -1,3 +1,6 @@
+web/public/bundle.js
+web/public/*.svg
+
 # OSX
 #
 .DS_Store

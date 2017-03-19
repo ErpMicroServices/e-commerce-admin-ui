@@ -1,0 +1,6 @@
+{
+  web_preference_types {
+    id
+    description
+  }
+}

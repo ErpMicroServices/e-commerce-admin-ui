@@ -10,7 +10,7 @@
     "clear-cache": "gulp clear-cache",
     "start": "npm run start-native; npm  run start-web",
     "start-native": "react-native start",
-    "start-web": "npm run web-dev;docker-compose up",
+    "start-web": "docker-compose up",
     "ios-bundle": "react-native bundle --dev false --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
     "ios-dev-bundle": "react-native bundle --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
     "test": "jest",

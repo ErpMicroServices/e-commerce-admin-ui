@@ -9,14 +9,10 @@ import WebPreferenceTypeListPage from "./containers/WebPreferenceTypeListPage";
 // import requireAuthentication from "./components/AuthenticatedComponent";
 import store from "../store";
 import index from "./containers/index.js";
-
+import {client} from "../reducers";
 const history = syncHistoryWithStore(hashHistory, store);
 
 const mountNode = document.getElementById('root');
-
-const client = new ApolloClient({
-	networkInterface: createNetworkInterface({ uri: "http://localhost/api/e-commerce/admin"})
-});
 
 // let token = localStorage.getItem('token');
 // if (token !== null) {

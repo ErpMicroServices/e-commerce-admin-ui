@@ -4,12 +4,12 @@ import thunkMiddleware from "redux-thunk";
 import {routerMiddleware} from "react-router-redux";
 import {hashHistory} from "react-router";
 
-import reducers from "../reducers";
+import {reducer} from "../reducers";
 
 const loggerMiddleware = createLogger();
 
 const store = createStore(
-	reducers,
+	reducer,
 	applyMiddleware(
 		routerMiddleware(hashHistory),
 		thunkMiddleware,

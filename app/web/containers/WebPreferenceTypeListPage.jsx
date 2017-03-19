@@ -1,14 +1,11 @@
 import React from "react";
-import {connect} from "react-redux";
-import {push} from "react-router-redux";
+import { gql, graphql } from 'react-apollo';
 import {PageHeader} from "bootstrap-react-components";
-import {load, add} from "../../actions";
+import {load as loadData, add} from "../../actions";
 import {WebPreferenceTypeList} from "../components/WebPreferenceTypes";
+import WebPreferenceTypeGql from "../../graphql/WebPreferenceTypeList.graphql";
 
 class WebPreferenceTypeListPage extends React.Component {
-    componentWillMount() {
-        this.props.load();
-    }
 
     constructor(props) {
         super(props);
@@ -18,33 +15,27 @@ class WebPreferenceTypeListPage extends React.Component {
         this.setState({list});
     }
 
+    add(item) {
+
+    }
     render() {
-        let {list} = this.props;
+      console.log("this.props: ", this.props);
+        let {data} = this.props;
         return (
             <div id="WebPreferenceTypeListPage">
                 <PageHeader id="WebPreferenceTypeListPage">
                     <h1>Web Preference Types</h1>
                 </PageHeader>
                 <WebPreferenceTypeList
-                  add={this.props.add.bind(this)}
+                  add={this.add.bind(this)}
                   allowEditing={true}
-                  list={list}
-
+                  list={data.web_preference_types}
                   onListChange={this.onListChange.bind(this)}/>
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {list: state.web_preference_types.list};
-};
+// const WebPreferenceTypeGql = gql`{web_preference_types { id description }}`;
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        load: () => dispatch(load()),
-        add: (newWebPreferenceType) => dispatch(add(newWebPreferenceType))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WebPreferenceTypeListPage);
+export default graphql(WebPreferenceTypeGql)(WebPreferenceTypeListPage);

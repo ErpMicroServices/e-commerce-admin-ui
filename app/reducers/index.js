@@ -17,4 +17,4 @@ const reducer = combineReducers({
 	apollo: client.reducer()
 });
 
-export default reducer;
+export {reducer, client};

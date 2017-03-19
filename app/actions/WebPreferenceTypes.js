@@ -9,8 +9,12 @@ import {
 } from "react-templates-and-utils";
 import jwtDecode from 'jwt-decode';
 
-import { graphql } from 'react-apollo';
-import { connect } from 'react-redux';
+import {
+    graphql
+} from 'react-apollo';
+import {
+    connect
+} from 'react-redux';
 
 let {
     API_RESULT_SUCCESS,
@@ -21,19 +25,21 @@ let {
     WEB_PREFERENCE_TYPES_LOAD_SUCCESS,
 } = constants;
 
-export function load() {
-    return (dispatch, state) => {        
-        dispatch({
-            type: WEB_PREFERENCE_TYPES_LOAD_BEGIN,
-            payload: {
-                status: API_STATUS_STARTED
-            }
-        });
+export function load(data) {
 
-        dispatch({
+    console.log("load(data): ", data);
+    if (data.loading) {
+      return ({
+        type: WEB_PREFERENCE_TYPES_LOAD_BEGIN,
+        payload: {
+          status: API_STATUS_STARTED,
+        }
+      })
+    } else {
+        return ({
             type: WEB_PREFERENCE_TYPES_LOAD_SUCCESS,
             payload: {
-                list: state().web_preference_types.list,
+                list: data.web_preference_types || [],
                 status: API_STATUS_FINISHED,
                 result: API_RESULT_SUCCESS
             }
@@ -41,12 +47,11 @@ export function load() {
     }
 }
 
-export function add( newWebPreferenceType) {
-  console.log("add: ", newWebPreferenceType);
-  return {
-    type: WEB_PREFERENCE_TYPES_ADD,
-    payload: {
-      newWebPreferenceType
+export function add(newWebPreferenceType) {
+    return {
+        type: WEB_PREFERENCE_TYPES_ADD,
+        payload: {
+            newWebPreferenceType
+        }
     }
-  }
 }

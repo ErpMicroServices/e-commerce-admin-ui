@@ -5,6 +5,7 @@ import {load as loadData, add} from "../../actions";
 import {WebPreferenceTypeList, WebPreferenceTypeEditor} from "../components/WebPreferenceTypes";
 import WebPreferenceTypeGql from "../../graphql/WebPreferenceTypeList.graphql";
 import CreateWebPreferenceType from "../../graphql/CreateWebPreferenceType.graphql";
+import UpdateWebPreferenceType from "../../graphql/UpdateWebPreferenceType.graphql";
 
 class WebPreferenceTypeListPage extends React.Component {
 
@@ -16,19 +17,17 @@ class WebPreferenceTypeListPage extends React.Component {
     }
 
     create(item) {
-        this.props.createWPT(item)
-        .then(({data}) => {
+        this.props.createWPT(item).then(({data}) => {
             this.setState({addFormShow: false});
             return data;
-        })
-        .catch((error) => console.log("error: ", error));
+        }).catch((error) => console.log("error: ", error));
     }
 
     render() {
         let {list} = this.props;
         let mainDisplay = list.loading
             ? <p>Still loading....</p>
-            : <WebPreferenceTypeList list={list.web_preference_types}/>;
+            : <WebPreferenceTypeList list={list.web_preference_types} update={this.props.updateWPT.bind(this)}/>;
         let addForm = this.state.addFormShow
             ? <WebPreferenceTypeEditor id={""} description={""} save={this.create.bind(this)}/>
             : <button class="btn btn-default" onClick={this.showAdd.bind(this)}>
@@ -68,6 +67,34 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
             updateQueries: {
                 "WebPreferenceTypeList": (prev, {mutationResult}) => {
                     let newType = mutationResult.data.create_web_preference_type;
+                    return Object.assign({}, prev, {
+                        web_preference_types: [
+                            ...prev.web_preference_types,
+                            newType
+                        ]
+                    });
+                }
+            }
+        })
+    })
+}), graphql(UpdateWebPreferenceType, {
+    name: 'update',
+    props: ({update}) => ({
+        updateWPT: ({id, description}) => update({
+            variables: {
+                id,
+                description
+            },
+            optimisticResponse: {
+                "update_web_preference_type": {
+                    id,
+                    description,
+                    "__typename": "WebPreferenceType"
+                }
+            },
+            updateQueries: {
+                "WebPreferenceTypeList": (prev, {mutationResult}) => {
+                    let newType = mutationResult.data.update_web_preference_type;
                     return Object.assign(prev, {
                         web_preference_types: [
                             ...prev.web_preference_types,

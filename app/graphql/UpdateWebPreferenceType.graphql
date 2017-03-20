@@ -1,0 +1,5 @@
+mutation UpdateWebPreferenceType( $id: ID!, $description: String!) {
+  update_web_preference_type(id: $id description:$description){
+     id description
+  }
+}

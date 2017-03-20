@@ -7,7 +7,7 @@ import WebPreferenceTypes from "./web_preference_types";
 
 const client = new ApolloClient({
 	networkInterface: createNetworkInterface({ uri: "http://localhost/api/e-commerce/admin"}),
-	dataIdFromObject: o => o.id
+	dataIdFromObject: o => o.id || "new"
 });
 
 const reducer = combineReducers({

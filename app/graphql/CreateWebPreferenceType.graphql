@@ -1,0 +1,6 @@
+mutation create($description: String!) {
+  create_web_preference_type(description: $description) {
+    id
+    description
+  }
+}

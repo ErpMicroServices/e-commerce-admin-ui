@@ -1,6 +1,7 @@
 import React from "react";
 import {ItemEditor} from "react-templates-and-utils";
 import {TextFormGroup, SaveButton} from "bootstrap-react-components";
+
 class Editor extends ItemEditor {
 
     descriptionChange(e) {

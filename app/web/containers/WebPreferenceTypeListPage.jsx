@@ -18,7 +18,7 @@ class WebPreferenceTypeListPage extends React.Component {
     }
 
     create(item) {
-        this.props.createWPT(item).then(({data}) => {
+        this.props.createQl(item).then(({data}) => {
             this.setState({addFormShow: false});
             return data;
         }).catch((error) => console.log("error: ", error));
@@ -28,7 +28,7 @@ class WebPreferenceTypeListPage extends React.Component {
         let {list} = this.props;
         let mainDisplay = list.loading
             ? <p>Still loading....</p>
-            : <WebPreferenceTypeList list={list.web_preference_types} update={this.props.updateWPT.bind(this)} remove={this.props.removeWPT.bind(this)}/>;
+            : <WebPreferenceTypeList list={list.web_preference_types} update={this.props.updateQl.bind(this)} remove={this.props.removeQl.bind(this)}/>;
         let addForm = this.state.addFormShow
             ? <WebPreferenceTypeEditor id={""} description={""} save={this.create.bind(this)}/>
             : <button class="btn btn-default" onClick={this.showAdd.bind(this)}>
@@ -55,7 +55,7 @@ class WebPreferenceTypeListPage extends React.Component {
 export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(CreateWebPreferenceType, {
     name: 'create',
     props: ({create}) => ({
-        createWPT: (item) => create({
+        createQl: (item) => create({
             variables: {
                 description: item.description
             },
@@ -81,7 +81,7 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
 }), graphql(UpdateWebPreferenceType, {
     name: 'update',
     props: ({update}) => ({
-        updateWPT: ({id, description}) => update({
+        updateQl: ({id, description}) => update({
             variables: {
                 id,
                 description
@@ -97,7 +97,7 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
                 "web_preference_types": (prev, {mutationResult}) => {
                     let newType = mutationResult.data.update_web_preference_type;
                     return Object.assign(prev, {
-                        web_preference_types: prev.web_preference_types.map( i => i.id === newType.id ? newType:i),                            
+                        web_preference_types: prev.web_preference_types.map( i => i.id === newType.id ? newType:i),
                     });
                 }
             }
@@ -106,7 +106,7 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
 }), graphql(DeleteWebPreferenceType, {
     name: 'remove',
     props: ({remove}) => ({
-        removeWPT: ({id}) => remove({
+        removeQl: ({id}) => remove({
             variables: {
                 id
             },

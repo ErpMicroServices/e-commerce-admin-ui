@@ -1,4 +1,4 @@
-mutation create($description: String!) {
+mutation create_web_preference_type($description: String!) {
   create_web_preference_type(description: $description) {
     id
     description

@@ -3,10 +3,10 @@ import {compose, gql, graphql} from 'react-apollo';
 import {PageHeader} from "bootstrap-react-components";
 import {load as loadData, add} from "../../actions";
 import {WebPreferenceTypeList, WebPreferenceTypeEditor} from "../components/WebPreferenceTypes";
-import WebPreferenceTypeGql from "../../graphql/WebPreferenceTypeList.graphql";
-import CreateWebPreferenceType from "../../graphql/CreateWebPreferenceType.graphql";
-import UpdateWebPreferenceType from "../../graphql/UpdateWebPreferenceType.graphql";
-import delete_web_preference_type from "../../graphql/delete_web_preference_type.graphql";
+import WebPreferenceTypeGql from "../../graphql/web_preference_types.graphql";
+import CreateWebPreferenceType from "../../graphql/create_web_preference_type.graphql";
+import UpdateWebPreferenceType from "../../graphql/update_web_preference_type.graphql";
+import DeleteWebPreferenceType from "../../graphql/delete_web_preference_type.graphql";
 
 class WebPreferenceTypeListPage extends React.Component {
 
@@ -28,13 +28,9 @@ class WebPreferenceTypeListPage extends React.Component {
         let {list} = this.props;
         let mainDisplay = list.loading
             ? <p>Still loading....</p>
-            : <WebPreferenceTypeList  list={list.web_preference_types}
-                                      update={this.props.updateWPT.bind(this)}
-                                      remove={this.props.removeWPT.bind(this)}/>;
+            : <WebPreferenceTypeList list={list.web_preference_types} update={this.props.updateWPT.bind(this)} remove={this.props.removeWPT.bind(this)}/>;
         let addForm = this.state.addFormShow
-            ? <WebPreferenceTypeEditor  id={""}
-                                        description={""}
-                                        save={this.create.bind(this)}/>
+            ? <WebPreferenceTypeEditor id={""} description={""} save={this.create.bind(this)}/>
             : <button class="btn btn-default" onClick={this.showAdd.bind(this)}>
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
                 Add
@@ -70,7 +66,7 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
                 }
             },
             updateQueries: {
-                "WebPreferenceTypeList": (prev, {mutationResult}) => {
+                "web_preference_types": (prev, {mutationResult}) => {
                     let newType = mutationResult.data.create_web_preference_type;
                     return Object.assign({}, prev, {
                         web_preference_types: [
@@ -98,19 +94,16 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
                 }
             },
             updateQueries: {
-                "WebPreferenceTypeList": (prev, {mutationResult}) => {
+                "web_preference_types": (prev, {mutationResult}) => {
                     let newType = mutationResult.data.update_web_preference_type;
                     return Object.assign(prev, {
-                        web_preference_types: [
-                            ...prev.web_preference_types,
-                            newType
-                        ]
+                        web_preference_types: prev.web_preference_types.map( i => i.id === newType.id ? newType:i),                            
                     });
                 }
             }
         })
     })
-}), graphql(delete_web_preference_type, {
+}), graphql(DeleteWebPreferenceType, {
     name: 'remove',
     props: ({remove}) => ({
         removeWPT: ({id}) => remove({
@@ -124,11 +117,10 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
                 }
             },
             updateQueries: {
-                "WebPreferenceTypeList": (prev, {mutationResult}) => {
+                "web_preference_types": (prev, {mutationResult}) => {
                     let newType = mutationResult.data.delete_web_preference_type;
                     return Object.assign(prev, {
-                        web_preference_types: prev.web_preference_types.filter( i => i.id !== newType.id),                            
-
+                        web_preference_types: prev.web_preference_types.filter(i => i.id !== newType.id)
                     });
                 }
             }

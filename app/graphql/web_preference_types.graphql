@@ -1,4 +1,4 @@
-query WebPreferenceTypeList {
+query web_preference_types {
   web_preference_types {
     id
     description

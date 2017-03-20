@@ -6,9 +6,9 @@ import Description from "./Description";
 class WebPreferenceTypeList extends React.Component {
 
     render() {
-        let {list, update} = this.props;
+        let {list, update, remove} = this.props;
         let displayList = list
-            ? list.map((item, index) => <Description item={item} key={index} save={update}/>)
+            ? list.map((item, index) => <Description item={item} key={index} save={update} remove={remove}/>)
             : "There are no types";
         return (
             <div class="WebPreferenceTypeList">

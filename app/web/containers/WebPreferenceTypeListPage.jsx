@@ -6,6 +6,7 @@ import {WebPreferenceTypeList, WebPreferenceTypeEditor} from "../components/WebP
 import WebPreferenceTypeGql from "../../graphql/WebPreferenceTypeList.graphql";
 import CreateWebPreferenceType from "../../graphql/CreateWebPreferenceType.graphql";
 import UpdateWebPreferenceType from "../../graphql/UpdateWebPreferenceType.graphql";
+import delete_web_preference_type from "../../graphql/delete_web_preference_type.graphql";
 
 class WebPreferenceTypeListPage extends React.Component {
 
@@ -27,9 +28,13 @@ class WebPreferenceTypeListPage extends React.Component {
         let {list} = this.props;
         let mainDisplay = list.loading
             ? <p>Still loading....</p>
-            : <WebPreferenceTypeList list={list.web_preference_types} update={this.props.updateWPT.bind(this)}/>;
+            : <WebPreferenceTypeList  list={list.web_preference_types}
+                                      update={this.props.updateWPT.bind(this)}
+                                      remove={this.props.removeWPT.bind(this)}/>;
         let addForm = this.state.addFormShow
-            ? <WebPreferenceTypeEditor id={""} description={""} save={this.create.bind(this)}/>
+            ? <WebPreferenceTypeEditor  id={""}
+                                        description={""}
+                                        save={this.create.bind(this)}/>
             : <button class="btn btn-default" onClick={this.showAdd.bind(this)}>
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
                 Add
@@ -100,6 +105,30 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
                             ...prev.web_preference_types,
                             newType
                         ]
+                    });
+                }
+            }
+        })
+    })
+}), graphql(delete_web_preference_type, {
+    name: 'remove',
+    props: ({remove}) => ({
+        removeWPT: ({id}) => remove({
+            variables: {
+                id
+            },
+            optimisticResponse: {
+                "delete_web_preference_type": {
+                    id,
+                    "__typename": "WebPreferenceType"
+                }
+            },
+            updateQueries: {
+                "WebPreferenceTypeList": (prev, {mutationResult}) => {
+                    let newType = mutationResult.data.delete_web_preference_type;
+                    return Object.assign(prev, {
+                        web_preference_types: prev.web_preference_types.filter( i => i.id !== newType.id),                            
+
                     });
                 }
             }

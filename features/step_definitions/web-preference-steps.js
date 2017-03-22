@@ -53,9 +53,10 @@ defineSupportCode(function({
             ;
     });
 
-    When('I delete a web preference type', function(callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback(null, 'pending');
+    When('I delete a web preference type', function() {
+        return this.webPreferenceTypePage.openPage()
+            .then(() => this.webPreferenceTypePage.deleteButton(this.exisiting_web_preference_id))
+            .then(button => button.click())
     });
 
     Then('the web preference type is in the database', function() {
@@ -79,9 +80,12 @@ defineSupportCode(function({
             .then(() => expect(textList).to.include(preferenceType));
     });
 
-    Then('the web preference type called {stringInDoubleQuotes} does not exist', function(arg1, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback(null, 'pending');
+    Then('the web preference type called {stringInDoubleQuotes} does not exist', function(web_preference_type) {
+        let textList = [];
+        this.webPreferenceTypePage.webPreferenceTypeList
+            .then(elementList => elementList.map(element => element.getText()
+                .then(text => textList.push(text.trim()))))
+            .then(() => expect(textList).to.not.include(web_preference_type));
     });
 
     Then('the web preference value in the database is {stringInDoubleQuotes}', function(web_preference_value) {

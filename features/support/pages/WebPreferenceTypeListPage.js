@@ -19,6 +19,10 @@ class WebPreferenceTypeListPage {
         this.driver = driver;
     }
 
+    deleteButton(id) {
+        return this.driver.findElement(By.id(`id${id}RemoveButton`));
+    }
+
     editButton(id) {
         return this.driver.findElement(By.id(`id${id}EditButton`));
     }

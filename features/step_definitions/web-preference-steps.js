@@ -40,9 +40,10 @@ defineSupportCode(function({
     When('I update the web preference to {stringInDoubleQuotes},', function(changedWebPreference) {
         return this.webPreferenceTypePage.openPage()
             .then(() => this.webPreferenceTypePage.editButton(this.exisiting_web_preference_id[0]))
-            .then(buton => button.click())
-            .then(() => this.webPreferenceTypePage.webPreferenceTypeDescriptionText)
-            .then(textBox => textBox.sendKeys(changedWebPreference))
+            .then(button => button.click())
+            .then(() => this.webPreferenceTypePage.webPreferenceTypeDescriptionTextFor(this.exisiting_web_preference_id[0]))
+            .then((textBox) => textBox.clear()
+                .then(emptyTextBox => textBox.sendKeys(changedWebPreference)))
             .then(() => this.webPreferenceTypePage.saveButton)
             .then(button => button.click());
     });
@@ -68,9 +69,9 @@ defineSupportCode(function({
     Then('the web preference list contains {stringInDoubleQuotes}', function(preferenceType) {
         let textList = [];
         this.webPreferenceTypePage.webPreferenceTypeList
-        .then(elementList => elementList.map(element => element.getText()
-                                                              .then(text => textList.push(text.trim()))))
-        .then(() => expect(textList).to.include(preferenceType));
+            .then(elementList => elementList.map(element => element.getText()
+                .then(text => textList.push(text.trim()))))
+            .then(() => expect(textList).to.include(preferenceType));
     });
 
     Then('the web preference type called {stringInDoubleQuotes} does not exist', function(arg1, callback) {
@@ -78,8 +79,12 @@ defineSupportCode(function({
         callback(null, 'pending');
     });
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     Then('the web preference value in the database is {stringInDoubleQuotes}', function(web_preference_value) {
-        return this.db.one("select id, description from web_preference_type where description = $1", [web_preference_value])
+        return sleep(1000).then(() => this.db.one("select id, description from web_preference_type where description = $1", [web_preference_value]))
             .then((data) => {
                 expect(data.description).to.be.equal(web_preference_value);
             });

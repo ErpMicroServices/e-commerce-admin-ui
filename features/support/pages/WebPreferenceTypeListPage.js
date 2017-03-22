@@ -25,7 +25,6 @@ class WebPreferenceTypeListPage {
 
     openPage() {
         return this.driver.navigate().to("http://localhost/e-commerce-admin#/web_preference_types");
-        // return this.driver.get("http://localhost/e-commerce-admin#/web_preference_types");
     }
 
     get saveWebPreferenceTypeDescriptionButton() {
@@ -36,6 +35,9 @@ class WebPreferenceTypeListPage {
         return this.driver.findElement(By.id('Description'));
     }
 
+    webPreferenceTypeDescriptionTextFor(id) {
+        return this.driver.findElement(By.id(`${id}Description`));
+    }
     get pageHeader() {
         return this.driver.findElement(By.id('WebPreferenceTypeListPagePageHeader'));
     }

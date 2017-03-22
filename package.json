@@ -8,12 +8,13 @@
     "build": "npm run web-bundle;npm run build-web",
     "build-web": "docker build --tag erpmicroservices/e-commerce-admin-service --rm .",
     "clear-cache": "gulp clear-cache",
+    "ios-bundle": "react-native bundle --dev false --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
+    "ios-dev-bundle": "react-native bundle --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
     "start": "npm run start-native; npm  run start-web",
     "start-native": "react-native start",
     "start-web": "docker-compose up",
-    "ios-bundle": "react-native bundle --dev false --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
-    "ios-dev-bundle": "react-native bundle --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
-    "test": "jest",
+    "test": "cucumber-js --tags @admin-ui --compiler es6:babel-core/register -r ./features ../e-commerce-features",
+    "test-one": "cucumber-js --name \"Duplicate web preference types get an error message\" --compiler es6:babel-core/register -r ./features ../e-commerce-features",
     "web-bundle": "webpack --config web/webpack/web.prod.config.js --progress --colors",
     "web-dev": "webpack --progress --colors --watch -d --config web/webpack/web.dev.config.js"
   },
@@ -71,18 +72,18 @@
     "babel-preset-react-native": "1.9.1",
     "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.24.0",
+    "chai": "^3.5.0",
+    "cucumber": "^2.0.0-rc.7",
     "eslint": "^3.17.1",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-react": "^6.10.0",
     "jest": "19.0.2",
     "jsx-html-class": "^1.0.3",
     "react-test-renderer": "15.4.2",
+    "selenium-webdriver": "^3.3.0",
     "webpack": "^2.2.1",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^2.4.2",
     "webpack-hot-middleware": "^2.17.1"
-  },
-  "jest": {
-    "preset": "react-native"
   }
 }

@@ -6,12 +6,12 @@ import Auth from "./auth";
 
 const client = new ApolloClient({
 	networkInterface: createNetworkInterface({ uri: "http://localhost/api/e-commerce/admin"}),
-	dataIdFromObject: o => o.id || "new"
+	dataIdFromObject: o => {console.log("o: ", o); return o.id || "new";}
 });
 
 const reducer = combineReducers({
 	app: Application,
-	auth: Auth,	
+	auth: Auth,
 	routing: routerReducer,
 	apollo: client.reducer()
 });

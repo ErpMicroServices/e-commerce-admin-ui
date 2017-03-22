@@ -18,7 +18,7 @@ class Editor extends ItemEditor {
         return (
             <div class="WebPreferenceTypeEditor">
                 <TextFormGroup label="Web Preference Type Description" id={id + "Description"} onChange={this.descriptionChange.bind(this)} value={description}/>
-                <button type="button" class="btn btn-primary" onClick={this.save.bind(this)}>Save
+                <button id="saveWebPreferenceTypeDescriptionButton" type="button" class="btn btn-primary" onClick={this.save.bind(this)}>Save
                 </button>
                 <button type="button" class="btn btn-default" onClick={this.cancel.bind(this)}>Cancel</button>
             </div>

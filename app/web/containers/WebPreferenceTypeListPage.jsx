@@ -1,12 +1,16 @@
 import React from "react";
+import {connect} from "react-redux";
 import {compose, gql, graphql} from 'react-apollo';
 import {PageHeader} from "bootstrap-react-components";
+import constants from "../../constants";
 import {load as loadData, add} from "../../actions";
 import {WebPreferenceTypeList, WebPreferenceTypeEditor} from "../components/WebPreferenceTypes";
 import WebPreferenceTypeGql from "../../graphql/web_preference_types.graphql";
 import CreateWebPreferenceType from "../../graphql/create_web_preference_type.graphql";
 import UpdateWebPreferenceType from "../../graphql/update_web_preference_type.graphql";
 import DeleteWebPreferenceType from "../../graphql/delete_web_preference_type.graphql";
+
+let {DISPLAY_MESSAGE, MESSAGE_CONTEXT_DANGER} = constants;
 
 class WebPreferenceTypeListPage extends React.Component {
 
@@ -21,17 +25,21 @@ class WebPreferenceTypeListPage extends React.Component {
         this.props.createQl(item).then(({data}) => {
             this.setState({addFormShow: false});
             return data;
-        }).catch((error) => console.log("error: ", error));
+        }).catch(error => this.props.showMessage(error));
+    }
+
+    remove(item) {
+        this.props.removeQl(item).catch(error => this.props.showMessage(error));
     }
 
     render() {
         let {list} = this.props;
         let mainDisplay = list.loading
             ? <p>Still loading....</p>
-            : <WebPreferenceTypeList list={list.web_preference_types} update={this.props.updateQl.bind(this)} remove={this.props.removeQl.bind(this)}/>;
+            : <WebPreferenceTypeList list={list.web_preference_types} update={this.update.bind(this)} remove={this.props.removeQl.bind(this)}/>;
         let addForm = this.state.addFormShow
             ? <WebPreferenceTypeEditor id={""} description={""} save={this.create.bind(this)}/>
-            : <button class="btn btn-default" onClick={this.showAdd.bind(this)}>
+          : <button id="addWebPreferenceTypeButton" class="btn btn-default" onClick={this.showAdd.bind(this)}>
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
                 Add
             </button>;
@@ -50,9 +58,14 @@ class WebPreferenceTypeListPage extends React.Component {
     showAdd = () => {
         this.setState({addFormShow: true})
     }
+
+    update(item) {
+        this.props.updateQl(item)
+        .catch(error => this.props.showMessage(error));
+    }
 }
 
-export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(CreateWebPreferenceType, {
+const WebPreferenceTypeListPageWithGql = compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(CreateWebPreferenceType, {
     name: 'create',
     props: ({create}) => ({
         createQl: (item) => create({
@@ -96,8 +109,11 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
             updateQueries: {
                 "web_preference_types": (prev, {mutationResult}) => {
                     let newType = mutationResult.data.update_web_preference_type;
+                    console.log("mutationResult: ", mutationResult)
                     return Object.assign(prev, {
-                        web_preference_types: prev.web_preference_types.map( i => i.id === newType.id ? newType:i),
+                        web_preference_types: prev.web_preference_types.map(i => i.id === newType.id
+                            ? newType
+                            : i)
                     });
                 }
             }
@@ -127,3 +143,13 @@ export default compose(graphql(WebPreferenceTypeGql, {name: "list"}), graphql(Cr
         })
     })
 }))(WebPreferenceTypeListPage);
+
+export default connect(state => ({}), dispatch => ({
+    showMessage: message => dispatch({
+        type: DISPLAY_MESSAGE,
+        payload: {
+            context: MESSAGE_CONTEXT_DANGER,
+            message: message.message
+        }
+    })
+}))(WebPreferenceTypeListPageWithGql);

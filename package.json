@@ -14,7 +14,7 @@
     "start-native": "react-native start",
     "start-web": "docker-compose up",
     "test": "cucumber-js --tags @admin-ui --compiler es6:babel-core/register -r ./features ../e-commerce-features",
-    "test-one": "cucumber-js --name \"A web preference can be updated\" --compiler es6:babel-core/register -r ./features ../e-commerce-features",
+    "test-one": "cucumber-js --name \"An error is returned when updating a web preference to an existing web preference\" --compiler es6:babel-core/register -r ./features ../e-commerce-features",
     "web-bundle": "webpack --config web/webpack/web.prod.config.js --progress --colors",
     "web-dev": "webpack --progress --colors --watch -d --config web/webpack/web.dev.config.js"
   },

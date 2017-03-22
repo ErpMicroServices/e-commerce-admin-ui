@@ -12,6 +12,10 @@ defineSupportCode(function({
     Then
 }) {
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     Given('I have provided a web preference type called {stringInDoubleQuotes}', function(web_preference_type, callback) {
         this.web_preference_type = web_preference_type;
         callback();
@@ -19,7 +23,7 @@ defineSupportCode(function({
 
     Given('a web preference type exists called {stringInDoubleQuotes}', function(web_preference_type) {
         return this.db.one("insert into web_preference_type (description) values ($1) returning id", [web_preference_type])
-            .then((data) => this.exisiting_web_preference_id.push(data.id));
+            .then((data) => this.exisiting_web_preference_id = data.id);
     });
 
     When('I save the web preference type', function() {
@@ -39,13 +43,14 @@ defineSupportCode(function({
 
     When('I update the web preference to {stringInDoubleQuotes},', function(changedWebPreference) {
         return this.webPreferenceTypePage.openPage()
-            .then(() => this.webPreferenceTypePage.editButton(this.exisiting_web_preference_id[0]))
+            .then(() => this.webPreferenceTypePage.editButton(this.exisiting_web_preference_id))
             .then(button => button.click())
-            .then(() => this.webPreferenceTypePage.webPreferenceTypeDescriptionTextFor(this.exisiting_web_preference_id[0]))
+            .then(() => this.webPreferenceTypePage.webPreferenceTypeDescriptionTextFor(this.exisiting_web_preference_id))
             .then((textBox) => textBox.clear()
                 .then(emptyTextBox => textBox.sendKeys(changedWebPreference)))
             .then(() => this.webPreferenceTypePage.saveButton)
-            .then(button => button.click());
+            .then(button => button.click())
+            ;
     });
 
     When('I delete a web preference type', function(callback) {
@@ -78,10 +83,6 @@ defineSupportCode(function({
         // Write code here that turns the phrase above into concrete actions
         callback(null, 'pending');
     });
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     Then('the web preference value in the database is {stringInDoubleQuotes}', function(web_preference_value) {
         return sleep(1000).then(() => this.db.one("select id, description from web_preference_type where description = $1", [web_preference_value]))

@@ -34,7 +34,7 @@ defineSupportCode(function({
 
     When('I retrieve a list of web preferences', function() {
         return this.webPreferenceTypePage.openPage()
-        .then(() => this.webPreferenceTypePage.webPreferenceTypeList);
+            .then(() => this.webPreferenceTypePage.webPreferenceTypeList);
     });
 
     When('I update the web preference to {stringInDoubleQuotes},', function(changedWebPreference) {
@@ -53,22 +53,24 @@ defineSupportCode(function({
     });
 
     Then('the web preference type is in the database', function() {
-      return this.db.one("select id, description from web_preference_type where description = $1", [this.web_preference_type])
-          .then((data) => {
-              expect(data.description).to.be.equal(this.web_preference_type);
-          });
+        return this.db.one("select id, description from web_preference_type where description = $1", [this.web_preference_type])
+            .then((data) => {
+                expect(data.description).to.be.equal(this.web_preference_type);
+            });
     });
 
     Then('I get an error message', function() {
-        return this.driver.wait(until.elementIsVisible( this.webPreferenceTypePage.alert))
-        .then(() => this.webPreferenceTypePage.alertText)
-        // .then(alert => alert.getAttribute('value'))
-        .then(text => expect(text).to.be.equal('GraphQL error: duplicate key value violates unique constraint "web_preference_type_description_key"'));
+        return this.driver.wait(until.elementIsVisible(this.webPreferenceTypePage.alert))
+            .then(() => this.webPreferenceTypePage.alertText)
+            .then(text => expect(text).to.be.equal('GraphQL error: duplicate key value violates unique constraint "web_preference_type_description_key"'));
     });
 
-    Then('the web preference list contains {stringInDoubleQuotes}', function(arg1, callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback(null, 'pending');
+    Then('the web preference list contains {stringInDoubleQuotes}', function(preferenceType) {
+        let textList = [];
+        this.webPreferenceTypePage.webPreferenceTypeList
+        .then(elementList => elementList.map(element => element.getText()
+                                                              .then(text => textList.push(text.trim()))))
+        .then(() => expect(textList).to.include(preferenceType));
     });
 
     Then('the web preference type called {stringInDoubleQuotes} does not exist', function(arg1, callback) {

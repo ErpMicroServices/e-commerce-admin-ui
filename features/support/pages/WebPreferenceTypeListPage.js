@@ -45,7 +45,7 @@ class WebPreferenceTypeListPage {
     }
 
     get webPreferenceTypeList() {
-        return this.driver.findElement(By.css('WebPreferenceTypeList'));
+        return this.driver.findElements(By.xpath('//*[@id="WebPreferenceTypeListPage"]/div[2]/ol/li'));
     }
 
 }

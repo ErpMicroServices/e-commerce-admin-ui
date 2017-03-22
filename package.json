@@ -14,7 +14,7 @@
     "start-native": "react-native start",
     "start-web": "docker-compose up",
     "test": "cucumber-js --tags @admin-ui --compiler es6:babel-core/register -r ./features ../e-commerce-features",
-    "test-one": "cucumber-js --name \"Duplicate web preference types get an error message\" --compiler es6:babel-core/register -r ./features ../e-commerce-features",
+    "test-one": "cucumber-js --name \"A web preference list can be produced\" --compiler es6:babel-core/register -r ./features ../e-commerce-features",
     "web-bundle": "webpack --config web/webpack/web.prod.config.js --progress --colors",
     "web-dev": "webpack --progress --colors --watch -d --config web/webpack/web.dev.config.js"
   },

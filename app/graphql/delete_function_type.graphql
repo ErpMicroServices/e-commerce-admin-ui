@@ -1,0 +1,5 @@
+mutation delete_function_type( $id: ID!) {
+  delete_function_type(id: $id ){
+     id description
+  }
+}

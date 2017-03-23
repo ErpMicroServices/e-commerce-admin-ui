@@ -1,0 +1,6 @@
+query function_types {
+  function_types {
+    id
+    description
+  }
+}

@@ -27,7 +27,7 @@ class Layout extends React.Component {
 	}
 
 	render() {
-		let {app, auth, logout, openWebTypes}        =this.props;
+		let {app, auth, logout, openWebTypes, openFunctionTypes}        =this.props;
 		let message = "";
 		let contextClass = "alert-info";
 		switch (app.message.context) {
@@ -61,7 +61,8 @@ class Layout extends React.Component {
 					title={this.state.title}
 					user={user}
 					logout={logout.bind(this)}
-					openWebTypes={openWebTypes.bind(this)}/>
+					openWebTypes={openWebTypes.bind(this)}
+          openFunctionTypes={openFunctionTypes.bind(this)}/>
 				{message}
 				{this.props.children}
 				<Footer/>
@@ -83,7 +84,8 @@ const mapDispatchToProps = (dispatch) => {
 		logout: () => {
 			dispatch(logoutAndRedirect());
 		},
-		openWebTypes: () => dispatch(push('/web_preference_types'))
+    openWebTypes: () => dispatch(push('/web_preference_types')),
+		openFunctionTypes: () => dispatch(push('/function_types'))
 	};
 };
 

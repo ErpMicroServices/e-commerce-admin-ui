@@ -1,0 +1,6 @@
+mutation create_function_type($description: String!) {
+  create_function_type(description: $description) {
+    id
+    description
+  }
+}

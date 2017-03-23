@@ -27,8 +27,13 @@ class Header extends React.Component {
     }
 
     openWebTypes(e) {
-      e.preventDefault();
-      this.props.openWebTypes();
+        e.preventDefault();
+        this.props.openWebTypes();
+    }
+
+    openFunctionTypes(e) {
+        e.preventDefault();
+        this.props.openFunctionTypes();
     }
 
     render() {
@@ -36,7 +41,9 @@ class Header extends React.Component {
         const navClass = collapsed
             ? "collapse"
             : "";
-        const typesMenuOpenClass = typesOpen ? "open" : "";
+        const typesMenuOpenClass = typesOpen
+            ? "open"
+            : "";
         const {auth, location, user} = this.props;
         let UserComponent = auth.isAuthenticated
             ? (
@@ -69,7 +76,8 @@ class Header extends React.Component {
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#" onClick={this.openWebTypes.bind(this)}>Web Preference</a>
+                                        <a href="#" onClick={this.openFunctionTypes.bind(this)}>Function Types</a>
+                                        <a href="#" onClick={this.openWebTypes.bind(this)}>Web Preference Types</a>
                                     </li>
                                 </ul>
                             </li>

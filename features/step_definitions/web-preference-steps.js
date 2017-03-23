@@ -33,7 +33,8 @@ defineSupportCode(function({
             .then(() => this.webPreferenceTypePage.webPreferenceTypeDescriptionText)
             .then(textBox => textBox.sendKeys(this.web_preference_type))
             .then(() => this.webPreferenceTypePage.saveButton)
-            .then(button => button.click());
+            .then(button => button.click())
+            .then(() => sleep(500));
     });
 
     When('I retrieve a list of web preferences', function() {

@@ -1,7 +1,7 @@
 version: '3'
 services:
   e-commerce-db:
-    image: erpmicroservices/e-commerce-database
+    image: erpmicroservices/e-commerce-db
     container_name: e-commerce-admin-ui-db
     ports:
       - "5432:5432"
@@ -27,22 +27,6 @@ services:
       - "traefik.backend=e-commerce-admin-ui"
       - "traefik.frontend.rule=PathPrefixStrip:/e-commerce-admin"
       - "traefik.port=80"
-      - "traefik.frontend.entryPoints=http"
-
-
-  pg-admin:
-    image: thajeztah/pgadmin4
-    container_name: e-commerce-admin-ui-pgadmin
-    links:
-      - e-commerce-db
-    environment:
-        - DEBUG=False
-    ports:
-      - "5050:5050"
-    labels:
-      - "traefik.backend=e-commerce-admin-db-ui"
-      - "traefik.frontend.rule=PathPrefixStrip:/dbui"
-      - "traefik.port=5050"
       - "traefik.frontend.entryPoints=http"
 
   traefik:

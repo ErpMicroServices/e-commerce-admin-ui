@@ -1,5 +1,5 @@
-mutation update_web_preference_type( $id: ID!, $description: String!) {
-  update_web_preference_type(id: $id description:$description){
+mutation update_function_type( $id: ID!, $description: String!) {
+  update_function_type(id: $id description:$description){
      id description
   }
 }

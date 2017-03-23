@@ -4,6 +4,7 @@ import chrome from "selenium-webdriver/chrome";
 import config from "./config";
 import database from "./database";
 import WebPreferenceTypePage from "./pages/WebPreferenceTypeListPage";
+import FunctionTypePage from "./pages/FunctionTypeListPage";
 
 var {
     defineSupportCode
@@ -21,6 +22,7 @@ function CustomWorld() {
         .build();
 
     this.webPreferenceTypePage = new WebPreferenceTypePage (this.driver);
+    this.functionTypePage = new FunctionTypePage(this.driver);
 
     this.by = webdriver.By;
     this.until = webdriver.until;

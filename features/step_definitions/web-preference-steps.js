@@ -70,7 +70,7 @@ defineSupportCode(function({
     Then('I get an error message', function() {
         return this.driver.wait(until.elementIsVisible(this.webPreferenceTypePage.alert))
             .then(() => this.webPreferenceTypePage.alertText)
-            .then(text => expect(text).to.be.equal('GraphQL error: duplicate key value violates unique constraint "web_preference_type_description_key"'));
+            .then(text => expect(text).to.be.contain('GraphQL error: duplicate key value violates unique constraint'));
     });
 
     Then('the web preference list contains {stringInDoubleQuotes}', function(preferenceType) {

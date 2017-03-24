@@ -4,7 +4,7 @@ const By = webdriver.By;
 class WebPreferenceTypeListPage {
 
     get addButton() {
-        return this.driver.findElement(By.id('addWebPreferenceTypeButton'))
+        return this.driver.findElement(By.id('addWebPreferenceTypeListButton'))
     }
 
     get alert() {
@@ -47,13 +47,16 @@ class WebPreferenceTypeListPage {
     }
 
     get saveButton() {
-        return this.driver.findElement(By.id('saveWebPreferenceTypeDescriptionButton'));
+        return this.driver.findElement(By.css('.save-button'));
     }
 
     get webPreferenceTypeList() {
-        return this.driver.findElements(By.xpath('//*[@id="WebPreferenceTypeListPage"]/div[2]/ol/li'));
+        return this.driver.findElement(By.id('WebPreferenceTypeListList'));
     }
 
+    get webPreferenceTypeListElements() {
+      return this.webPreferenceTypeList.then( we => we.findElements(By.tagName("li")));
+    }
 }
 
 export default WebPreferenceTypeListPage;

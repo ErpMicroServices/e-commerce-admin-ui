@@ -4,7 +4,7 @@ const By = webdriver.By;
 class FunctionTypeListPage {
 
     get addButton() {
-        return this.driver.findElement(By.id('addFunctionTypeButton'))
+        return this.driver.findElement(By.id('addFunctionTypeListButton'))
     }
 
     get alert() {
@@ -47,13 +47,16 @@ class FunctionTypeListPage {
     }
 
     get saveButton() {
-        return this.driver.findElement(By.id('saveFunctionTypeDescriptionButton'));
+        return this.driver.findElement(By.css('.save-button'));
     }
 
     get functionTypeList() {
-        return this.driver.findElements(By.xpath('//*[@id="FunctionTypeListPage"]/div[2]/ol/li'));
+        return this.driver.findElement(By.id('FunctionTypeListList'));
     }
 
+    get functionTypeListElements() {
+        return this.functionTypeList.then(we => we.findElements(By.tagName("li")));
+    }
 }
 
 export default FunctionTypeListPage;

@@ -75,7 +75,7 @@ defineSupportCode(function({
 
     Then('the web preference list contains {stringInDoubleQuotes}', function(preferenceType) {
         let textList = [];
-        this.webPreferenceTypePage.webPreferenceTypeList
+        this.webPreferenceTypePage.webPreferenceTypeListElements
             .then(elementList => elementList.map(element => element.getText()
                 .then(text => textList.push(text.trim()))))
             .then(() => expect(textList).to.include(preferenceType));
@@ -83,7 +83,7 @@ defineSupportCode(function({
 
     Then('the web preference type called {stringInDoubleQuotes} does not exist', function(web_preference_type) {
         let textList = [];
-        this.webPreferenceTypePage.webPreferenceTypeList
+        this.webPreferenceTypePage.webPreferenceTypeListElements
             .then(elementList => elementList.map(element => element.getText()
                 .then(text => textList.push(text.trim()))))
             .then(() => expect(textList).to.not.include(web_preference_type));

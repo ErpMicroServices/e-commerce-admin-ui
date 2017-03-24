@@ -74,7 +74,7 @@ defineSupportCode(function({
 
     Then('the function list contains {stringInDoubleQuotes}', function(preferenceType) {
         let textList = [];
-        this.functionTypePage.functionTypeList
+        this.functionTypePage.functionTypeListElements
             .then(elementList => elementList.map(element => element.getText()
                 .then(text => textList.push(text.trim()))))
             .then(() => expect(textList).to.include(preferenceType));
@@ -82,7 +82,7 @@ defineSupportCode(function({
 
     Then('the function type called {stringInDoubleQuotes} does not exist', function(function_type) {
         let textList = [];
-        this.functionTypePage.functionTypeList
+        this.functionTypePage.functionTypeListElements
             .then(elementList => elementList.map(element => element.getText()
                 .then(text => textList.push(text.trim()))))
             .then(() => expect(textList).to.not.include(function_type));

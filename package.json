@@ -5,8 +5,9 @@
     "scripts": {
         "android:bundle": "react-native bundle --dev false --entry-file index.android.js --platform android --bundle-output android/app/src/main/assets/index.android.bundle",
         "android:bundle:dev": "react-native bundle --entry-file index.android.js --platform android --bundle-output android/app/src/main/assets/index.android.bundle",
-        "build": "npm run web:bundle;npm run build:web",
+        "build": "npm run build:bundle;npm run build:web",
         "build:web": "docker build --tag erpmicroservices/e-commerce-admin-ui --rm .",
+        "build:bundle": "webpack --config web/webpack/web.prod.config.js --progress --colors",
         "clear:cache": "gulp clear-cache",
         "db_admin": "docker run --detach --publish 5050:5050 --name e-commerce-admin-ui-pgadmin --network=ecommerceadminui_default --link e-commerce-admin-ui-db:e-commerce-db thajeztah/pgadmin4",
         "ios:bundle": "react-native bundle --dev false --entry-file index.ios.js --platform ios --bundle-output ios/main.jsbundle",
@@ -16,7 +17,7 @@
         "start:native": "react-native start",
         "start:web": "docker-compose up",
         "test": "cucumber-js --tags @admin-ui --compiler es6:babel-core/register -r ./features ../e-commerce-features",
-        "web:bundle": "webpack --config web/webpack/web.prod.config.js --progress --colors",
+
         "web:dev": "webpack --progress --colors --watch -d --config web/webpack/web.dev.config.js"
     },
     "repository": {

@@ -1,0 +1,5 @@
+mutation delete_web_content_type( $id: ID!) {
+  delete_web_content_type(id: $id ){
+     id description
+  }
+}

@@ -1,13 +1,13 @@
 version: '3'
 services:
   e-commerce-db:
-    image: erpmicroservices/e-commerce-db
+    image: erpmicroservices/e-commerce-db:latest
     container_name: e-commerce-admin-ui-db
     ports:
       - "5432:5432"
 
   e-commerce-admin-service:
-    image: erpmicroservices/e-commerce-admin-service
+    image: erpmicroservices/e-commerce-admin-service:latest
     container_name: e-commerce-admin-ui-service
     links:
       - e-commerce-db

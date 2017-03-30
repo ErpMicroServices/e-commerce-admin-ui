@@ -3,6 +3,9 @@ import webdriver from "selenium-webdriver";
 import chrome from "selenium-webdriver/chrome";
 import config from "./config";
 import database from "./database";
+import WebContentRoleTypePage from "./pages/WebContentRoleTypePage";
+import WebContentStatusTypePage from "./pages/WebContentStatusTypePage";
+import WebContentTypePage from "./pages/WebContentTypePage";
 import WebPreferenceTypePage from "./pages/WebPreferenceTypeListPage";
 import FunctionTypePage from "./pages/FunctionTypeListPage";
 
@@ -23,6 +26,9 @@ function CustomWorld() {
 
     this.webPreferenceTypePage = new WebPreferenceTypePage (this.driver);
     this.functionTypePage = new FunctionTypePage(this.driver);
+    this.webContentStatusTypePage = new WebContentStatusTypePage(this.driver);
+    this.webContentRoleTypePage = new WebContentRoleTypePage(this.driver);
+    this.webContentTypePage = new WebContentTypePage(this.driver);
 
     this.by = webdriver.By;
     this.until = webdriver.until;

@@ -1,0 +1,6 @@
+mutation create_web_content_role_type($description: String!) {
+  create_web_content_role_type(description: $description) {
+    id
+    description
+  }
+}

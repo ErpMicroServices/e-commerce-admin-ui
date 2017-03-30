@@ -1,0 +1,5 @@
+mutation update_web_content_type( $id: ID!, $description: String!) {
+  update_web_content_type(id: $id description:$description){
+     id description
+  }
+}

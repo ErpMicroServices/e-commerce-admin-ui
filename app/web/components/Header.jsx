@@ -26,9 +26,24 @@ class Header extends React.Component {
         this.props.logout();
     }
 
-    openWebTypes(e) {
+    openWebContentRoleTypes(e) {
+      e.preventDefault();
+      this.props.openWebContentRoleTypes();
+    }
+
+openWebContentStatusTypes(e) {
+  e.preventDefault();
+  this.props.openWebContentStatusTypes();
+}
+
+    openWebContentTypes(e) {
+      e.preventDefault();
+      this.props.openWebContentTypes();
+    }
+
+    openWebPreferenceTypes(e) {
         e.preventDefault();
-        this.props.openWebTypes();
+        this.props.openWebPreferenceTypes();
     }
 
     openFunctionTypes(e) {
@@ -76,8 +91,12 @@ class Header extends React.Component {
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
+
                                         <a href="#" onClick={this.openFunctionTypes.bind(this)}>Function Types</a>
-                                        <a href="#" onClick={this.openWebTypes.bind(this)}>Web Preference Types</a>
+                                        <a href="#" onClick={this.openWebContentStatusTypes.bind(this)}>Web Content Status Types</a>
+                                        <a href="#" onClick={this.openWebContentTypes.bind(this)}>Web Content Types</a>
+                                        <a href="#" onClick={this.openWebContentRoleTypes.bind(this)}>Web Content Role Types</a>
+                                        <a href="#" onClick={this.openWebPreferenceTypes.bind(this)}>Web Preference Types</a>
                                     </li>
                                 </ul>
                             </li>

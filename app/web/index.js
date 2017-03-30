@@ -6,6 +6,9 @@ import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apol
 import {syncHistoryWithStore, push} from "react-router-redux";
 import Layout from "./components/Layout";
 import FunctionTypeListPage from "./containers/FunctionTypeListPage";
+import WebContentStatusTypeListPage from "./containers/WebContentStatusTypeListPage";
+import WebContentTypeListPage from "./containers/WebContentTypeListPage";
+import WebContentRoleTypeListPage from "./containers/WebContentRoleTypeListPage";
 import WebPreferenceTypeListPage from "./containers/WebPreferenceTypeListPage";
 // import requireAuthentication from "./components/AuthenticatedComponent";
 import store from "../store";
@@ -25,6 +28,9 @@ ReactDOM.render(<ApolloProvider store={store} client={client}>
 		<Router history={history}>
 			<Route path="/" component={Layout}>
 				<IndexRoute component={index}></IndexRoute>
+				<Route path="web_content_status_types" component={WebContentStatusTypeListPage}/>
+				<Route path="web_content_types" component={WebContentTypeListPage}/>
+				<Route path="web_content_role_types" component={WebContentRoleTypeListPage}/>
 				<Route path="web_preference_types" component={WebPreferenceTypeListPage}/>
 				<Route path="function_types" component={FunctionTypeListPage}/>
 			</Route>

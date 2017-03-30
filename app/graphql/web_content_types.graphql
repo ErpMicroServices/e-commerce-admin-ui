@@ -1,0 +1,6 @@
+query web_content_types {
+  web_content_types {
+    id
+    description
+  }
+}

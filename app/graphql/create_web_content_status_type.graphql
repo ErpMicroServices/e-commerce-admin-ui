@@ -1,0 +1,6 @@
+mutation create_web_content_status_type($description: String!) {
+  create_web_content_status_type(description: $description) {
+    id
+    description
+  }
+}

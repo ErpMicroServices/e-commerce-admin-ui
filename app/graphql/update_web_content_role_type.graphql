@@ -1,0 +1,5 @@
+mutation update_web_content_role_type( $id: ID!, $description: String!) {
+  update_web_content_role_type(id: $id description:$description){
+     id description
+  }
+}
